@@ -58,8 +58,8 @@ class CoolStepperConfig {
   const CoolStepperConfig({
     this.backText = 'PRE',
     this.nextText = 'NEXT',
-    this.stepText = 'STEP',
-    this.ofText = 'OF',
+    this.stepText = 'LANGKAH',
+    this.ofText = 'DARI',
     this.headerColor,
     this.iconColor,
     this.icon,

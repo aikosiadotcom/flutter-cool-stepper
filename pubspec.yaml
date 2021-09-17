@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
 
   another_flushbar: ^1.10.18
+  yao_core: 
+    path: ../yao_core
 
 dev_dependencies:
   flutter_test:

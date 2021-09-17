@@ -9,8 +9,8 @@ import 'package:cool_stepper/src/models/cool_step.dart';
 import 'package:cool_stepper/src/models/cool_stepper_config.dart';
 import 'package:cool_stepper/src/widgets/cool_stepper_view.dart';
 import 'package:flutter/material.dart';
+import 'package:yao_core/yao_core.dart';
 
-/// CoolStepper
 class CoolStepper extends StatefulWidget {
   /// The steps of the stepper whose titles, subtitles, content always get shown.
   ///
@@ -88,25 +88,27 @@ class _CoolStepperState extends State<CoolStepper> {
       }
     } else {
       /// [showErrorSnackbar] is true, Show error snackbar rule
-      if (widget.showErrorSnackbar) {
-        final flush = Flushbar(
-          message: validation,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          margin: EdgeInsets.all(8.0),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Theme.of(context).primaryColor,
-          ),
-          duration: Duration(seconds: 2),
-          leftBarIndicatorColor: Theme.of(context).primaryColor,
-        );
-        flush.show(context);
+      // if (widget.showErrorSnackbar) {
+      // final flush = Flushbar(
+      //   message: validation,
+      //   flushbarStyle: FlushbarStyle.FLOATING,
+      //   margin: EdgeInsets.all(8.0),
+      //   borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      //   icon: Icon(
+      //     Icons.info_outline,
+      //     size: 28.0,
+      //     color: Theme.of(context).primaryColor,
+      //   ),
+      //   duration: Duration(seconds: 2),
+      //   leftBarIndicatorColor: Theme.of(context).primaryColor,
+      // );
+      // flush.show(context);
 
-        // final snackBar = SnackBar(content: Text(validation));
-        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+      Yao().dialog.error(validation);
+
+      // final snackBar = SnackBar(content: Text(validation));
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // }
     }
   }
 
@@ -139,59 +141,65 @@ class _CoolStepperState extends State<CoolStepper> {
       child: Text(
         "${widget.config.stepText ?? 'STEP'} ${currentStep + 1} ${widget.config.ofText ?? 'OF'} ${widget.steps.length}",
         style: TextStyle(
+          color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
     );
 
-    String getNextLabel() {
-      String nextLabel;
+    Widget getNextLabel() {
+      Widget nextLabel;
       if (_isLast(currentStep)) {
-        nextLabel = widget.config.finalText ?? 'FINISH';
+        // nextLabel = widget.config.finalText ?? 'FINISH';
+        nextLabel = Icon(
+          Icons.check,
+          color: Colors.white,
+        );
       } else {
-        if (widget.config.nextTextList != null) {
-          nextLabel = widget.config.nextTextList![currentStep];
-        } else {
-          nextLabel = widget.config.nextText ?? 'NEXT';
-        }
+        nextLabel = Icon(
+          Icons.navigate_next,
+          color: Colors.white,
+        );
+        // if (widget.config.nextTextList != null) {
+        //   nextLabel = widget.config.nextTextList![currentStep];
+        // } else {
+        //   nextLabel = widget.config.nextText ?? 'NEXT';
+        // }
       }
       return nextLabel;
     }
 
-    String getPrevLabel() {
-      String backLabel;
+    Widget getPrevLabel() {
+      Widget backLabel;
       if (_isFirst(currentStep)) {
-        backLabel = '';
+        backLabel = Container();
       } else {
-        if (widget.config.backTextList != null) {
-          backLabel = widget.config.backTextList![currentStep - 1];
-        } else {
-          backLabel = widget.config.backText ?? 'PREV';
-        }
+        backLabel = Icon(
+          Icons.navigate_before,
+          color: Colors.white,
+        );
+        // if (widget.config.backTextList != null) {
+        //   backLabel = widget.config.backTextList![currentStep - 1];
+        // } else {
+        //   backLabel = widget.config.backText ?? 'PREV';
+        // }
       }
       return backLabel;
     }
 
     final buttons = Container(
+      color: Colors.blue,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           TextButton(
             onPressed: onStepBack,
-            child: Text(
-              getPrevLabel(),
-              style: TextStyle(color: Colors.grey),
-            ),
+            child: getPrevLabel(),
           ),
           counter,
           TextButton(
             onPressed: onStepNext,
-            child: Text(
-              getNextLabel(),
-              style: TextStyle(
-                color: Colors.green,
-              ),
-            ),
+            child: getNextLabel(),
           ),
         ],
       ),
