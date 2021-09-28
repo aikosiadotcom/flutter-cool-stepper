@@ -11,8 +11,11 @@ dependencies:
     sdk: flutter
 
   another_flushbar: ^1.10.18
-  yao_core: 
-    path: ../yao_core
+  
+  yao_core:
+    git:
+      url: git://github.com/aikosiadotcom/yao_core.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
